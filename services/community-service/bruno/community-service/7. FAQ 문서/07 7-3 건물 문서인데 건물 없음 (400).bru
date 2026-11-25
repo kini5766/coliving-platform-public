@@ -1,0 +1,21 @@
+meta {
+  name: 07 7-3 건물 문서인데 건물 없음 (400)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/community-service/admin/faq-documents
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:multipart-form {
+  title: 건물 미선택
+  scope: BUILDING
+  file: @file(faq-samples/community-rules.txt)
+}

@@ -1,0 +1,12 @@
+{
+  "documentTitle": "My profile",
+  "nickname": "Nickname",
+  "building": "Building",
+  "room": "Room",
+  "anonymous": "Anonymous",
+  "loadFailed": "Could not load.",
+  "loginRequired": "Sign in to continue.",
+  "otherDocumentTitle": "Profile",
+  "residentsOnly": "Only residents can view this profile.",
+  "notFound": "Profile not found."
+}

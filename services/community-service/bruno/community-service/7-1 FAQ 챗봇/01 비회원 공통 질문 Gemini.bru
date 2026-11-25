@@ -1,0 +1,17 @@
+meta {
+  name: 01 비회원 공통 질문 Gemini
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/community-service/faq-bot/ask
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "최소 계약 기간이 어떻게 되나요?"
+  }
+}

@@ -1,0 +1,17 @@
+meta {
+  name: 02 같은 질문 다시 (캐시)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/community-service/faq-bot/ask
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "최소 계약 기간이 어떻게 되나요?"
+  }
+}

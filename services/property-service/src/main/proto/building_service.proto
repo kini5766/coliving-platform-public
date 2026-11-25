@@ -1,0 +1,29 @@
+// ============================================================
+// 매물 서비스 ↔ 커뮤니티 서비스 gRPC 계약서
+// 서버: property-service / 클라이언트: community-service
+// ⚠ 두 서비스가 똑같은 내용으로 가지고 있어야 함. 필드 번호는 바꾸거나 재사용하지 않고, 지울 때는 reserved
+// ============================================================
+syntax = "proto3";
+
+package coliving.property.v1;
+
+option java_multiple_files = true;
+option java_package = "com.coliving.platform.grpc.property";
+option java_outer_classname = "BuildingProto";
+
+service BuildingService {
+  // 3-1 건물 목록 (간단) — FAQ 문서 범위·건물 선택, 게시판 건물 선택, 건물 이름 표시
+  rpc GetBuildings (GetBuildingsRequest) returns (GetBuildingsResponse);
+}
+
+message GetBuildingsRequest {
+}
+
+message GetBuildingsResponse {
+  repeated BuildingSummary buildings = 1;
+}
+
+message BuildingSummary {
+  int64 building_id = 1;
+  string building_name = 2;              // buildings.building_name
+}

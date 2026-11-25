@@ -1,0 +1,162 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: community-service
+  labels:
+    app.kubernetes.io/name: community-service
+    app.kubernetes.io/part-of: coliving-platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  selector:
+    app.kubernetes.io/name: community-service
+  ports:
+    - name: http
+      port: 8084
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: community-service
+  labels:
+    app.kubernetes.io/name: community-service
+    app.kubernetes.io/part-of: coliving-platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: community-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: community-service
+        app.kubernetes.io/part-of: coliving-platform
+    spec:
+      initContainers:
+        - name: wait-deps
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - until nc -z config-server 8888 && nc -z eureka-server 8761 && nc -z rabbitmq 5672 && nc -z pgvector 5432 && nc -z mongodb 27017 && nc -z redis 6379 && nc -z kafka 9092; do sleep 2; done
+      containers:
+        - name: community-service
+          image: ghcr.io/ibm05-team-3/community-service:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8084
+          envFrom:
+            - configMapRef:
+                name: coliving-runtime
+            - secretRef:
+                name: coliving-app
+          env:
+            - name: EUREKA_INSTANCE_IP_ADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: EUREKA_INSTANCE_HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SPRING_CONFIG_IMPORT
+              value: configserver:http://config-server:8888/
+            - name: SPRING_RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: rabbitmq-user
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: rabbitmq-password
+            - name: RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: rabbitmq-user
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: rabbitmq-password
+            - name: DB_HOST
+              value: pgvector
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: community_service
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: postgres-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: postgres-password
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://pgvector:5432/community_service
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: postgres-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: postgres-password
+            - name: SPRING_MONGODB_URI
+              value: mongodb://mongodb:27017/community_service
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: redis-password
+            - name: USER_GRPC_TARGET
+              value: dns:///user-service:9082
+            - name: CONTRACT_GRPC_TARGET
+              value: dns:///contract-service:9089
+            - name: PROPERTY_GRPC_TARGET
+              value: dns:///property-service:9083
+            - name: SPRING_GRPC_CLIENT_CHANNEL_USER_TARGET
+              value: dns:///user-service:9082
+            - name: SPRING_GRPC_CLIENT_CHANNEL_CONTRACT_TARGET
+              value: dns:///contract-service:9089
+            - name: SPRING_GRPC_CLIENT_CHANNEL_PROPERTY_TARGET
+              value: dns:///property-service:9083
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:MaxRAMPercentage=75.0 -Duser.timezone=Asia/Seoul"
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 36
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              memory: 1280Mi

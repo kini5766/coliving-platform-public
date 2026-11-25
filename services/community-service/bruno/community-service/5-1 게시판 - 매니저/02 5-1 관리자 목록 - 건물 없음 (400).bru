@@ -1,0 +1,15 @@
+meta {
+  name: 02 5-1 관리자 목록 - 건물 없음 (400)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/community-service/posts
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

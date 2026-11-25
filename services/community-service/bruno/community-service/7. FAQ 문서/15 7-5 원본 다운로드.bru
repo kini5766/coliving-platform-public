@@ -1,0 +1,15 @@
+meta {
+  name: 15 7-5 원본 다운로드
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/community-service/admin/faq-documents/{{faqMangwonDocId}}/file
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

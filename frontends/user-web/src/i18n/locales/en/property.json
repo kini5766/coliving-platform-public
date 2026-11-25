@@ -1,0 +1,77 @@
+{
+  "list": {
+    "title": "Search Buildings",
+    "keywordPlaceholder": "Building, area, or subway station",
+    "regionPlaceholder": "Area (e.g. Mapo-gu)",
+    "roomTypeAll": "All room types",
+    "minMonthly": "Min. monthly rent (10k KRW)",
+    "maxMonthly": "Max. monthly rent (10k KRW)",
+    "maxDeposit": "Max. deposit (10k KRW)",
+    "search": "Search",
+    "reset": "Reset",
+    "empty": "No buildings match your search.",
+    "total": "{{n}} found",
+    "lowestLabel": "Lowest rent / deposit",
+    "availableRooms": "{{n}} available",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "building": {
+    "apply": "Apply now",
+    "back": "← Buildings",
+    "info": "Building info",
+    "region": "Area",
+    "type": "Building type",
+    "totalFloors": "Total floors",
+    "floorsValue": "{{n}} floors",
+    "parking": "Parking",
+    "elevator": "Elevator",
+    "contact": "Contact",
+    "introduction": "About the building",
+    "facilities": "Shared facilities",
+    "rooms": "Rooms ({{n}})",
+    "noRooms": "No rooms registered.",
+    "monthly": "{{fee}} / month",
+    "deposit": "Deposit {{fee}}",
+    "floorValue": "Floor {{n}}",
+    "capacityValue": "{{n}} person(s)"
+  },
+  "room": {
+    "conditions": "Terms",
+    "leaseType": "Lease type",
+    "monthlyFee": "Monthly fee",
+    "deposit": "Deposit",
+    "managementFee": "Maintenance fee",
+    "roomInfo": "Room info",
+    "roomType": "Room type",
+    "roomStructure": "Layout",
+    "floor": "Floor",
+    "area": "Floor area",
+    "capacity": "Capacity",
+    "buildingInfo": "Building info"
+  },
+  "common": {
+    "loading": "Loading…",
+    "noImage": "No photo",
+    "noFacilities": "No facilities registered.",
+    "yes": "Yes",
+    "no": "No",
+    "available": "Available",
+    "unavailable": "Unavailable"
+  },
+  "leaseTypes": {
+    "MONTHLY": "Monthly",
+    "SHORT_TERM": "Short-term",
+    "OTHER": "Other"
+  },
+  "roomTypes": {
+    "원룸": "Studio",
+    "투룸": "Two-room",
+    "쉐어룸": "Shared room",
+    "도미토리": "Dormitory"
+  },
+  "errors": {
+    "requestFailed": "Request failed. ({{status}})",
+    "network": "Cannot connect to the server."
+  }
+}

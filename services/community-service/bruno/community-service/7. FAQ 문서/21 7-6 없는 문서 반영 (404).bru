@@ -1,0 +1,21 @@
+meta {
+  name: 21 7-6 없는 문서 반영 (404)
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/community-service/admin/faq-documents/reindex
+  body: json
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:json {
+  {
+    "documentIds": [999999]
+  }
+}

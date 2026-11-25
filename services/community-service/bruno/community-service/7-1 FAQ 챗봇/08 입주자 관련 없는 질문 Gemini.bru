@@ -1,0 +1,21 @@
+meta {
+  name: 08 입주자 관련 없는 질문 Gemini
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/community-service/faq-bot/ask
+  body: json
+  auth: none
+}
+
+headers {
+  X-User: {{residentId}}
+}
+
+body:json {
+  {
+    "question": "근처에 맛집 추천해 주세요"
+  }
+}

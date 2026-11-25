@@ -1,0 +1,22 @@
+meta {
+  name: 06 4-2 후보자가 열기 (403)
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/community-service/chat/rooms
+  body: json
+  auth: none
+}
+
+headers {
+  X-User: {{userId}}
+}
+
+body:json {
+  {
+    "partnerUserId": {{residentId}},
+    "sourceType": "PROFILE"
+  }
+}

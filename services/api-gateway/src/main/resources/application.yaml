@@ -1,0 +1,99 @@
+server:
+  port: 8081
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              predicates:
+                - Path=/user-service/user/**, /user-service/admin/**
+              filters:
+                - StripPrefix=1
+              uri: lb://user-service
+
+            - id: reservation-service
+              predicates:
+                - Path=/reservation-service/**
+              uri: lb://reservation-service
+
+            # community-service WebSocket (STOMP) — 일반 라우트보다 먼저
+            - id: community-service-ws
+              predicates:
+                - Path=/community-service/ws, /community-service/ws/**
+              uri: lb:ws://community-service
+
+            # community-service REST — 컨트롤러가 /community-service/... 로 시작해서 StripPrefix 없음
+            - id: community-service
+              predicates:
+                - Path=/community-service/**
+              uri: lb://community-service
+
+            - id: property-service
+              predicates:
+                - Path=/property-service/property/**, /property-service/admin/**
+              filters:
+                - StripPrefix=1
+              uri: lb://property-service
+
+            - id: document-service
+              predicates:
+                - Path=/document-service/admin/**
+              filters:
+                - StripPrefix=1
+              uri: lb://document-service
+
+            - id: dashboard-service
+              predicates:
+                - Path=/dashboard-service/admin/**
+              filters:
+                - StripPrefix=1
+              uri: lb://dashboard-service
+
+
+            # contract-service — 컨트롤러가 /apply, /contracts 로 시작하므로 StripPrefix=1
+            # /internal/** 은 서비스 간 호출용이라 게이트웨이로 열지 않음
+            - id: contract-service
+              predicates:
+                # /admin/** 은 관리자 승인·반려용. 권한은 GatewaySecurityConfig의 /*/admin/** → ADMIN 규칙이 확인
+                - Path=/contract-service/apply/**, /contract-service/contracts/**, /contract-service/admin/**
+              filters:
+                - StripPrefix=1
+              uri: lb://contract-service
+management:
+  server:
+    port: 18081       # API 포트(8081)와 분리. 게이트웨이 라우트에 올리지 않는다
+  endpoint:
+    health:
+      show-details: never
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://localhost:3000
+
+auth:
+  access-token-issuer: user-service
+  access-token-key-id: es256-2026
+  access-token-public: ${JWT_PUBLIC_KEY:-----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7wOxzOM9xtHw9RvbS19kvJeoioQxiI9vA5BfCEUAkO4bzjy+ODGws6oL7Vv6Dv0YXGdwLqmIkrn6RKujHYoH7g==-----END PUBLIC KEY-----}

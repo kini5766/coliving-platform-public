@@ -1,0 +1,25 @@
+meta {
+  name: 04 7-3 커뮤니티 수칙 업로드 (TXT)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/community-service/admin/faq-documents
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:multipart-form {
+  title: 커뮤니티 이용 수칙
+  scope: COMMON
+  file: @file(faq-samples/community-rules.txt)
+}
+
+script:post-response {
+  if (res.status === 201) bru.setEnvVar("faqRulesDocId", res.body.documentId);
+}

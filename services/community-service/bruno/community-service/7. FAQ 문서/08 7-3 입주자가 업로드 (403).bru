@@ -1,0 +1,21 @@
+meta {
+  name: 08 7-3 입주자가 업로드 (403)
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/community-service/admin/faq-documents
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-User: {{residentId}}
+}
+
+body:multipart-form {
+  title: 입주자 업로드
+  scope: COMMON
+  file: @file(faq-samples/community-rules.txt)
+}

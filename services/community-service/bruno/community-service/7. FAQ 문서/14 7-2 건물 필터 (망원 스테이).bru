@@ -1,0 +1,15 @@
+meta {
+  name: 14 7-2 건물 필터 (망원 스테이)
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/community-service/admin/faq-documents?scope=BUILDING&buildingId={{buildingId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

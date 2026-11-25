@@ -1,0 +1,22 @@
+syntax = "proto3";
+package coliving.document.v1;
+
+option java_multiple_files = true;
+option java_package = "com.coliving.platform.grpc.document";
+option java_outer_classname = "DocumentProto";
+
+
+service DocumentService {
+  // 계약서 양식 1건 조회. 없으면 서버는 Status NOT_FOUND로 응답한다
+  rpc GetDocumentForm (GetDocumentFormRequest) returns (DocumentForm);
+}
+
+message GetDocumentFormRequest {
+  int64 template_id = 1;   // document_forms.id
+}
+
+message DocumentForm {
+  int64 template_id = 1;
+  string language = 2;     // ko / en
+  string content = 3;      // 치환 전 양식 본문
+}

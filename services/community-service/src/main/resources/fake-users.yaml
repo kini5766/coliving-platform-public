@@ -1,0 +1,10 @@
+# 가짜(fake) 클라이언트용 테스트 회원 — community.clients.user / contract 가 fake 일 때만 사용
+# 평소(grpc)에는 user-service · contract-service 의 실제 회원·계약을 써서 이 파일은 읽히지 않아요
+# 기본 가짜 회원 5001 김민서 · 5002 박준영 · 5003 이도윤(입주자, 망원 스테이) · 6001 김예린(후보자) · 7001 정하늘 · 9001 매니저 는 따로 적지 않아도 있어요
+#
+# id         : 회원 ID
+# roles      : USER / CANDIDATE / RESIDENT / ADMIN 중 여러 개
+# buildingId : 1 망원 스테이 · 2 성수 하우스 · 3 연남 리빙 (입주자만)
+# roomNumber : 호실 (입주자만)
+# 바꾼 뒤에는 community-service 재시작
+users: []

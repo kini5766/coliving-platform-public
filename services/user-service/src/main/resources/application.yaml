@@ -1,0 +1,32 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: user-service
+  config:
+    import: "optional:configserver:http://localhost:8888/"
+    fail-fast: true
+  profiles:
+    active: dev
+  # 메일: Gmail SMTP. 앱 비밀번호는 환경변수 MAIL_APP_PASSWORD 이며 커밋하지 않는다.
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_APP_PASSWORD:}
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 5000
+      mail.smtp.writetimeout: 5000
+
+app:
+  mail:
+    enabled: ${MAIL_ENABLED:false}   # false면 비밀번호 재설정은 실패
+    from: ${MAIL_USERNAME:}           # Gmail은 로그인 계정 주소여야 함
+    from-name: Roomlink
+    link-base-url: ${USER_WEB_URL:http://localhost:5173}
+    reset-token-ttl: 30m

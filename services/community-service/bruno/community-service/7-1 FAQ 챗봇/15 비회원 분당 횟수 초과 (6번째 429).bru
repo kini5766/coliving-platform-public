@@ -1,0 +1,17 @@
+meta {
+  name: 15 비회원 분당 횟수 초과 (6번째 429)
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/community-service/faq-bot/ask
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "최소 계약 기간이 어떻게 되나요?"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Roomlink",
+  "eyebrow": "Shared housing",
+  "headline": "A private room in a shared home",
+  "lead": "Choose a home and apply to move in. After you move in, you can use the community and shared facilities.",
+  "findHome": "Find a coliving home",
+  "signUp": "Sign up",
+  "stepsTitle": "How move-in works",
+  "steps": [
+    {
+      "title": "Choose a home",
+      "body": "Compare rooms by building, area, monthly fee, and deposit."
+    },
+    {
+      "title": "Apply",
+      "body": "Pick a room, move-in date, and length of stay."
+    },
+    {
+      "title": "Live together",
+      "body": "After move-in, use the community and book shared facilities."
+    }
+  ],
+  "spacesTitle": "Spaces",
+  "spacesLead": "A private room and shared rooms in the same home.",
+  "spaces": [
+    { "title": "Private room", "body": "A room for sleep and work.", "alt": "Private room with a bed and desk" },
+    { "title": "Shared lounge", "body": "A common room for sitting and meals.", "alt": "Lounge with a sofa and dining table" },
+    { "title": "Study room", "body": "A bookable room for studying.", "alt": "Study room" },
+    { "title": "Meeting room", "body": "A bookable room for meetings.", "alt": "Meeting room" }
+  ],
+  "homesTitle": "Homes you can move into",
+  "homesLead": "The lowest monthly fee and deposit for each listed building.",
+  "samplePhoto": "Sample interior photo",
+  "monthlyDeposit": "{{monthly}} / month · deposit {{deposit}}",
+  "seeAll": "See all buildings",
+  "homesEmpty": "No buildings are listed yet.",
+  "pathsTitle": "What to do next",
+  "findPath": "Browse homes",
+  "facilityPath": "Book a shared facility"
+}

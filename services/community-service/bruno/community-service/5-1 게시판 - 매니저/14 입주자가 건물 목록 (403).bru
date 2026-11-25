@@ -1,0 +1,15 @@
+meta {
+  name: 14 입주자가 건물 목록 (403)
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/community-service/admin/buildings
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{residentId}}
+}

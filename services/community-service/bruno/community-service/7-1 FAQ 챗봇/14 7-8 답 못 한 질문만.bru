@@ -1,0 +1,15 @@
+meta {
+  name: 14 7-8 답 못 한 질문만
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/community-service/admin/faq-bot/logs?answered=false
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

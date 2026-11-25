@@ -1,0 +1,107 @@
+# 기본 IngressClass 가 받는다. 호스트는 클러스터 DNS나 로컬 hosts에 맞춘다.
+# WebSocket(STOMP)은 api-gateway 로 들어가므로 프록시 읽기 시간을 늘린다.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: coliving
+  labels:
+    app.kubernetes.io/name: coliving
+    app.kubernetes.io/part-of: coliving-platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  tls:
+    - hosts:
+        - user.darkhanmarie.site
+        - admin.darkhanmarie.site
+        - api.darkhanmarie.site
+        - eureka.darkhanmarie.site
+        - grafana.darkhanmarie.site
+        - kibana.darkhanmarie.site
+        - prometheus.darkhanmarie.site
+        - rabbitmq.darkhanmarie.site
+      secretName: coliving-tls
+  rules:
+    - host: user.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: user-web
+                port:
+                  number: 80
+    - host: admin.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-web
+                port:
+                  number: 80
+    - host: api.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8081
+    - host: eureka.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: eureka-server
+                port:
+                  number: 8761
+    - host: grafana.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+    - host: kibana.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kibana
+                port:
+                  number: 5601
+    - host: prometheus.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090
+    - host: rabbitmq.darkhanmarie.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rabbitmq
+                port:
+                  number: 15672

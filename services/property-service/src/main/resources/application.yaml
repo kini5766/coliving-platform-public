@@ -1,0 +1,30 @@
+server:
+  port: 8083
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+  application:
+    name: property-service
+  grpc:
+    server:
+      port: 9083      # gRPC 서버 포트 (dashboard-service가 접속). HTTP 포트(8083)와 별개
+    client:
+      channel:
+        contract:     # ContractGrpcClientConfig의 @ImportGrpcClients(target = "contract")와 같은 이름
+          # 계약 서비스 gRPC 서버 주소 (contract-service 9089). 쿠버네티스: CONTRACT_GRPC_TARGET=dns:///계약서비스이름:9089
+          target: ${CONTRACT_GRPC_TARGET:localhost:9089}
+          default:
+            deadline: 2s   # 넘기면 DEADLINE_EXCEEDED → OccupancyClient가 "알 수 없음"으로 처리 (목록 화면이 느려지지 않게)
+  config:
+    import: "optional:configserver:http://localhost:8888/"
+    fail-fast: true
+  profiles:
+    active: dev
+
+# 건물 대표 이미지 저장 위치. 프로세스 작업 디렉터리 기준.
+property:
+  image:
+    dir: ./uploads/property-images

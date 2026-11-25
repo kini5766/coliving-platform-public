@@ -1,0 +1,45 @@
+services/.idea/compiler.xml
+
+
+build/
+.gradle/
+out/
+
+# Gradle / 빌드 결과물
+build/
+.gradle/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+dist/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+#서브모듈
+coliving-platform-config/
+
+# 계약 파일 (서명 이미지, 계약서 PDF) - 개인정보, 커밋 금지
+data/contract-files/
+**/data/contract-files/
+
+# 배포 Secret. 샘플(*.yaml.sample)만 커밋한다.
+k8s/base/platform/coliving-infra.yaml
+k8s/base/platform/coliving-app.yaml
+
+# 키스토어 Secret
+keystore/secret/

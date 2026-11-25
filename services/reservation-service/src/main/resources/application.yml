@@ -1,0 +1,53 @@
+
+server:
+  port: 8085
+
+spring:
+  application:
+    name: reservation-service
+
+  config:
+    import: "optional:configserver:http://localhost:8888/"
+
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reservation_service
+    username: postgres
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        max.block.ms: 3000
+
+  # 이미지 파일 업로드 크기 제한
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+
+app:
+  kafka:
+    topics:
+      reservation-status-changed: reservation.status-changed
+
+# JWT 인증 설정
+auth:
+  access-token-issuer: user-service
+  access-token-key-id: es256-2026
+  access-token-public: ${JWT_PUBLIC_KEY:-----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7wOxzOM9xtHw9RvbS19kvJeoioQxiI9vA5BfCEUAkO4bzjy+ODGws6oL7Vv6Dv0YXGdwLqmIkrn6RKujHYoH7g==-----END PUBLIC KEY-----}
+
+# 공용 자원 이미지 업로드 설정
+resource:
+  image:
+    upload-dir: ./uploads/resources
+    max-size: 5242880

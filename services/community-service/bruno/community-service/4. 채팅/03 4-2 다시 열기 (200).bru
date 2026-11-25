@@ -1,0 +1,22 @@
+meta {
+  name: 03 4-2 다시 열기 (200)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/community-service/chat/rooms
+  body: json
+  auth: none
+}
+
+headers {
+  X-User: {{residentId2}}
+}
+
+body:json {
+  {
+    "partnerUserId": {{residentId}},
+    "sourceType": "PROFILE"
+  }
+}

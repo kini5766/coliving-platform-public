@@ -1,0 +1,25 @@
+meta {
+  name: 05 5-6 매니저 댓글
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/community-service/posts/{{postId}}/comments
+  body: json
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:json {
+  {
+    "content": "내일 오전 10시에 수리 기사님이 방문할 예정이에요. 불편을 드려 죄송합니다."
+  }
+}
+
+script:post-response {
+  if (res.status === 201) bru.setEnvVar("adminCommentId", res.body.commentId);
+}

@@ -1,0 +1,15 @@
+meta {
+  name: 04 5-2 관리자 상세
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/community-service/posts/{{postId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

@@ -1,0 +1,21 @@
+meta {
+  name: 06 7-3 지원 안 하는 파일 (400)
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/community-service/admin/faq-documents
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:multipart-form {
+  title: 이미지 파일
+  scope: COMMON
+  file: @file(faq-samples/not-supported.png)
+}

@@ -1,0 +1,21 @@
+meta {
+  name: 12 8-3 매니저 차단 (400)
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/community-service/blocks
+  body: json
+  auth: none
+}
+
+headers {
+  X-User: {{residentId}}
+}
+
+body:json {
+  {
+    "blockedUserId": {{adminId}}
+  }
+}

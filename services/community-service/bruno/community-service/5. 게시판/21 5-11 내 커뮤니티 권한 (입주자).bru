@@ -1,0 +1,15 @@
+meta {
+  name: 21 5-11 내 커뮤니티 권한 (입주자)
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{baseUrl}}/community-service/me
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{residentId}}
+}

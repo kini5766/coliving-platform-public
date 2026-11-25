@@ -1,0 +1,36 @@
+// ============================================================
+// 계약 서비스 ↔ 매물 서비스 gRPC 계약서 (호실 입주 가능 여부)
+// 서버: contract-service (9089) / 클라이언트: property-service (OccupancyClient)
+// ⚠ 두 서비스가 똑같은 내용으로 가지고 있어야 함
+//    contract-service/src/main/proto/contract_occupancy_service.proto
+//    property-service/src/main/proto/contract_occupancy_service.proto
+//   필드 번호는 바꾸거나 재사용하지 않고, 지울 때는 reserved
+// ============================================================
+syntax = "proto3";
+
+package coliving.contract.v1;
+
+option java_multiple_files = true;
+option java_package = "com.coliving.platform.grpc.contract";
+option java_outer_classname = "ContractOccupancyProto";
+
+service ContractOccupancyService {
+  // 호실별 오늘 입주 가능 여부 (건물 목록의 "입주 가능 호실 수", 호실 목록·상세의 입주 가능 배지)
+  // 오늘(한국 날짜)이 걸친 예약이 있으면 false, 없으면 true
+  // 예약 = DB 제약 no_overlap_booking 대상 상태의 신청 (작성 중·심사 중·결제 대기·결제·계약 완료·퇴실 신청 등)
+  // 요청한 호실은 모두 응답에 들어간다 (신청이 한 번도 없던 호실은 true)
+  rpc GetRoomAvailability (GetRoomAvailabilityRequest) returns (GetRoomAvailabilityResponse);
+}
+
+message GetRoomAvailabilityRequest {
+  repeated int64 room_ids = 1;           // 최대 1000개 (넘으면 INVALID_ARGUMENT)
+}
+
+message GetRoomAvailabilityResponse {
+  repeated RoomAvailability rooms = 1;
+}
+
+message RoomAvailability {
+  int64 room_id = 1;
+  bool available = 2;                    // 오늘 입주 가능하면 true
+}

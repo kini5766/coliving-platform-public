@@ -1,0 +1,39 @@
+# 공통 런타임. 비밀번호는 Git에 올리지 않는다.
+# coliving-infra.yaml, coliving-app.yaml 은 샘플을 복사해 클러스터에만 적용한다.
+# spring.profiles.active=prod 이고, coliving-platform-config 의 main 브랜치를 읽는다.
+# prod YAML 의 ${...} 자리는 이 ConfigMap, Deployment env, Secret 이 채운다.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coliving-runtime
+  labels:
+    app.kubernetes.io/part-of: coliving-platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+data:
+  SPRING_PROFILES_ACTIVE: prod
+  SPRING_CLOUD_CONFIG_LABEL: main
+  FRONTEND_URL: https://user.darkhanmarie.site
+  USER_WEB_URL: https://user.darkhanmarie.site
+  MAIL_ENABLED: "false"
+  APP_CORS_ALLOWED_ORIGINS: https://user.darkhanmarie.site,https://admin.darkhanmarie.site
+  NAVER_REDIRECT_URI: https://api.darkhanmarie.site/user-service/user/oauth2/code/naver
+  GOOGLE_REDIRECT_URI: https://api.darkhanmarie.site/user-service/user/oauth2/code/google
+  COMMUNITY_CHAT_ALLOWED_ORIGINS: https://user.darkhanmarie.site,https://admin.darkhanmarie.site
+  ELASTICSEARCH_URIS: http://elasticsearch:9200
+  PROMETHEUS_URL: http://prometheus:9090
+  MONGODB_URI: mongodb://mongodb:27017/community_service
+  EUREKA_URL: http://eureka-server:8761/eureka/
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+  EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+  RABBITMQ_HOST: rabbitmq
+  RABBITMQ_PORT: "5672"
+  SPRING_RABBITMQ_HOST: rabbitmq
+  SPRING_RABBITMQ_PORT: "5672"
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  SPRING_DATA_REDIS_HOST: redis
+  SPRING_DATA_REDIS_PORT: "6379"
+  KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  TZ: Asia/Seoul

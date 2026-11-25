@@ -1,0 +1,15 @@
+meta {
+  name: 03 5-1 관리자 목록 (망원 스테이)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/community-service/posts?buildingId={{buildingId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

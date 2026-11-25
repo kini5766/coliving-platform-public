@@ -1,0 +1,77 @@
+# 각 서비스 schema.sql 을 해당 데이터베이스에 적용한다.
+# initdb 의 .sql 은 POSTGRES_DB 에만 실행되므로 여기서 psql -d 로 연결한다.
+# CREATE ... IF NOT EXISTS 라서 다시 실행해도 기존 행을 지우지 않는다.
+# Argo CD Sync 마다 Job 을 지우고 다시 실행한다.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: coliving-schema
+  labels:
+    app.kubernetes.io/name: coliving-schema
+    app.kubernetes.io/part-of: coliving-platform
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  backoffLimit: 6
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: coliving-schema
+        app.kubernetes.io/part-of: coliving-platform
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: schema
+          image: postgres:17.11-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: postgres-user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: coliving-infra
+                  key: postgres-password
+          command: ["sh", "-c"]
+          args:
+            - |
+              set -eu
+              wait_ready() {
+                host="$1"
+                i=0
+                until pg_isready -h "$host" -p 5432; do
+                  i=$((i + 1))
+                  if [ "$i" -gt 60 ]; then
+                    echo "$host is not ready" >&2
+                    exit 1
+                  fi
+                  sleep 2
+                done
+              }
+              wait_ready postgres
+              wait_ready pgvector
+              psql -h postgres -d user_service -v ON_ERROR_STOP=1 -f /schema/user.sql
+              psql -h postgres -d property_service -v ON_ERROR_STOP=1 -f /schema/property.sql
+              psql -h postgres -d reservation_service -v ON_ERROR_STOP=1 -f /schema/reservation.sql
+              psql -h postgres -d document_service -v ON_ERROR_STOP=1 -f /schema/document.sql
+              psql -h postgres -d contract_service -v ON_ERROR_STOP=1 -f /schema/contract.sql
+              psql -h pgvector -d community_service -v ON_ERROR_STOP=1 -f /schema/community.sql
+          volumeMounts:
+            - name: schema
+              mountPath: /schema
+              readOnly: true
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+      volumes:
+        - name: schema
+          configMap:
+            name: coliving-schema

@@ -1,0 +1,74 @@
+# Argo CD Application(k8s/argocd/application.yaml)이 이 디렉터리를 동기화한다.
+# 애플리케이션 이미지 태그는 아래 images.newTag 만 바꾸면 된다.
+# Secret coliving-infra, coliving-app 은 여기 넣지 않는다. docs/배포-가이드.md 를 본다.
+# schema.sql 은 services 아래 파일을 ConfigMap 으로 넣는다.
+# Argo CD 3 는 Application 필드가 아니라 argocd-cm 의 kustomize.buildOptions 로 --load-restrictor LoadRestrictionsNone 을 받는다.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: coliving
+resources:
+  - namespace.yaml
+  - platform/config.yaml
+  - infra/postgres.yaml
+  - infra/pgvector.yaml
+  - infra/mongodb.yaml
+  - infra/redis.yaml
+  - infra/rabbitmq.yaml
+  - infra/kafka.yaml
+  - infra/elasticsearch.yaml
+  - infra/prometheus.yaml
+  - infra/grafana.yaml
+  - platform/eureka-server.yaml
+  - platform/config-server.yaml
+  - platform/api-gateway.yaml
+  - platform/user-service.yaml
+  - platform/property-service.yaml
+  - platform/community-service.yaml
+  - platform/reservation-service.yaml
+  - platform/dashboard-service.yaml
+  - platform/document-service.yaml
+  - platform/contract-service.yaml
+  - platform/user-web.yaml
+  - platform/admin-web.yaml
+  - platform/ingress.yaml
+  - infra/schema-job.yaml
+images:
+  - name: ghcr.io/ibm05-team-3/eureka-server
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/config-server
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/api-gateway
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/user-service
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/property-service
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/community-service
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/reservation-service
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/dashboard-service
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/document-service
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/contract-service
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/user-web
+    newTag: latest
+  - name: ghcr.io/ibm05-team-3/admin-web
+    newTag: latest
+configMapGenerator:
+  - name: coliving-schema
+    files:
+      - user.sql=../../services/user-service/src/main/resources/db/schema.sql
+      - property.sql=../../services/property-service/src/main/resources/db/schema.sql
+      - reservation.sql=../../services/reservation-service/src/main/resources/db/schema.sql
+      - document.sql=../../services/document-service/src/main/resources/db/schema.sql
+      - contract.sql=../../services/contract-service/src/main/resources/db/schema.sql
+      - community.sql=../../services/community-service/src/main/resources/db/schema.sql
+    options:
+      disableNameSuffixHash: true
+      annotations:
+        argocd.argoproj.io/sync-wave: "1"
+      labels:
+        app.kubernetes.io/part-of: coliving-platform

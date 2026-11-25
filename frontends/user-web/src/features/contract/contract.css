@@ -1,0 +1,25 @@
+/* 계약 화면 색상 토큰 (contract 담당).
+   값은 직접 정하지 않고 user-web 토큰(main, background, text, accent)에서 만든다.
+   → user-web index.css의 색을 바꾸면 계약 화면도 같이 바뀐다.
+   토큰 이름(primary, line, ink …)은 계약 화면 코드에서 쓰는 이름이라 그대로 둔다.
+   글꼴은 따로 정하지 않는다 (user-web 기본 글꼴을 그대로 씀).
+   user-web index.css에서 @import 한 줄로 불러온다. */
+@theme {
+  --color-surface: #ffffff;                                                   /* 카드 = user-web bg-white */
+  --color-soft: color-mix(in oklab, var(--color-main) 8%, white);             /* 옅은 강조 면 (선택 상태, 금액 박스) */
+  --color-line: color-mix(in oklab, var(--color-main) 15%, transparent);      /* 테두리·구분선 = border-main/15 */
+
+  --color-ink: var(--color-text);                                             /* 본문 글자 = text-text */
+  --color-sub: color-mix(in oklab, var(--color-text) 70%, transparent);       /* 보조 글자 = text-text/70 */
+  --color-muted: color-mix(in oklab, var(--color-text) 50%, transparent);     /* 흐린 글자 */
+
+  --color-primary: var(--color-main);                                         /* 주요 버튼 = bg-main */
+  --color-primary-strong: color-mix(in oklab, var(--color-main) 85%, black);  /* 강조 금액 글자 */
+  --color-primary-soft: color-mix(in oklab, var(--color-main) 15%, white);    /* 선택된 칸 배경 */
+
+  --color-ok-bg: color-mix(in oklab, var(--color-main) 15%, white);           /* 초록 상태 배지 */
+  --color-ok-fg: color-mix(in oklab, var(--color-main) 85%, black);
+  --color-warn-bg: color-mix(in oklab, var(--color-accent) 20%, white);       /* 안내·경고 = accent 계열 */
+  --color-warn-fg: color-mix(in oklab, var(--color-accent) 50%, black);
+  --color-warn-line: color-mix(in oklab, var(--color-accent) 45%, white);
+}

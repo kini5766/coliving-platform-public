@@ -1,0 +1,26 @@
+meta {
+  name: 05 7-3 스캔 PDF 업로드 (반영 실패용)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/community-service/admin/faq-documents
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:multipart-form {
+  title: 연남 리빙 시설 안내 (스캔본)
+  scope: BUILDING
+  buildingId: 3
+  file: @file(faq-samples/yeonnam-scanned.pdf)
+}
+
+script:post-response {
+  if (res.status === 201) bru.setEnvVar("faqScannedDocId", res.body.documentId);
+}

@@ -1,0 +1,15 @@
+meta {
+  name: 23 5-11 내 커뮤니티 권한 (매니저)
+  type: http
+  seq: 23
+}
+
+get {
+  url: {{baseUrl}}/community-service/me
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

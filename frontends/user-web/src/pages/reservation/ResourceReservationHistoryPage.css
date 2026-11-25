@@ -1,0 +1,258 @@
+
+/* 전체 페이지 */
+.reservation-history-page {
+  min-height: 100vh;
+  background-color: #F3F5F1;
+  padding: 40px 20px;
+  color: #26332E;
+  box-sizing: border-box;
+}
+
+/* 가운데 콘텐츠 */
+.reservation-history-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 페이지 제목 */
+.reservation-history-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.reservation-history-subtitle {
+  color: #52796F;
+  margin-bottom: 24px;
+}
+
+/* 예약 및 문의 내역 탭 */
+.reservation-history-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.reservation-history-tab {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 24px;
+  background-color: white;
+  color: #26332E;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.reservation-history-tab:hover {
+  background-color: #E4F0E9;
+}
+
+.reservation-history-tab.active {
+  background-color: #52796F;
+  color: white;
+}
+
+/* 예약 및 문의 내역 카드 */
+.reservation-history-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 카드 상단 */
+.reservation-history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.reservation-history-resource-name {
+  font-size: 20px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.reservation-history-number {
+  color: #66756C;
+  font-size: 14px;
+  margin: 12px 0;
+}
+
+/* 예약 상태 배지 */
+.reservation-history-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background-color: #E4F0E9;
+  color: #386B52;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.reservation-history-status.canceled {
+  background-color: #F5E8E8;
+  color: #A94442;
+}
+
+.reservation-history-status.completed {
+  background-color: #E7EAE8;
+  color: #596760;
+}
+
+.reservation-history-status.overdue {
+  background-color: #FFF0DA;
+  color: #986C39;
+}
+
+/* 예약 상세 정보 */
+.reservation-history-details {
+  border-top: 1px solid #E6EBE7;
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.reservation-history-detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* 버튼 영역 */
+.reservation-history-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.reservation-history-button {
+  padding: 12px 10px;
+  border-radius: 8px;
+  border: 1px solid #52796F;
+  background-color: white;
+  color: #52796F;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reservation-history-button:hover:not(:disabled) {
+  background-color: #E4F0E9;
+}
+
+.reservation-history-button.primary {
+  background-color: #52796F;
+  color: white;
+}
+
+.reservation-history-button.primary:hover:not(:disabled) {
+  background-color: #40665C;
+}
+
+.reservation-history-button.inquiry {
+  border-color: #D6A56D;
+  color: #986C39;
+}
+
+.reservation-history-button:disabled {
+  background-color: #E7EAE8;
+  border-color: #E7EAE8;
+  color: #738078;
+  cursor: not-allowed;
+}
+
+/* 문의 내역 카드 */
+.reservation-inquiry-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.reservation-inquiry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.reservation-inquiry-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.reservation-inquiry-type {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background-color: #F7EBDD;
+  color: #986C39;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.reservation-inquiry-info {
+  color: #66756C;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.reservation-inquiry-content {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #F3F5F1;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 안내 문구 */
+.reservation-history-message {
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  border-radius: 12px;
+}
+
+/* 모바일 화면 */
+@media (max-width: 600px) {
+  .reservation-history-page {
+    padding: 24px 14px;
+  }
+
+  .reservation-history-card,
+  .reservation-inquiry-card {
+    padding: 18px;
+  }
+
+  .reservation-history-title {
+    font-size: 24px;
+  }
+
+  .reservation-history-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .reservation-history-card-header,
+  .reservation-inquiry-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reservation-history-tab {
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+}

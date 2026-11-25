@@ -1,0 +1,157 @@
+/**
+ * @author 조휘재
+ * 작성일: 2026-10-26
+ */
+
+import { useEffect, useState } from 'react'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
+import { navigation } from '../navigation'
+import { useNavBadges } from '../features/community/hooks/useNavBadges'
+import { logout } from '../session'
+
+const DESKTOP_QUERY = '(min-width: 1024px)'
+
+/** 관리자 화면의 룸링크 로고. */
+function BrandLogo({ className }) {
+  return <img src="/roomlink-logo.svg" alt="룸링크" className={`w-auto ${className}`} />
+}
+
+/** 사이드 메뉴와 본문. 좁은 화면에서는 메뉴 버튼으로 열고, 넓은 화면에서는 메뉴를 고정한다. */
+function AdminLayout() {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [menuPath, setMenuPath] = useState(null)
+  const [loggingOut, setLoggingOut] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia(DESKTOP_QUERY).matches)
+  const badgeCounts = useNavBadges()
+  const open = menuPath === location.pathname
+  const sidebarVisible = isDesktop || open
+
+  useEffect(() => {
+    const media = window.matchMedia(DESKTOP_QUERY)
+    function update(event) {
+      setIsDesktop(event.matches)
+    }
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    if (!open || isDesktop) {
+      document.body.style.overflow = ''
+      return undefined
+    }
+
+    function onKeyDown(event) {
+      if (event.key === 'Escape') {
+        setMenuPath(null)
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [open, isDesktop])
+
+  async function handleLogout() {
+    setLoggingOut(true)
+    try {
+      await logout()
+      navigate('/login', { replace: true })
+    } catch {
+      setLoggingOut(false)
+    }
+  }
+
+  return (
+    <div className="min-h-dvh bg-background text-text lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
+      {open && !isDesktop && (
+        <button
+          type="button"
+          aria-label="메뉴 닫기"
+          className="fixed inset-0 z-30 bg-text/40 lg:hidden"
+          onClick={() => setMenuPath(null)}
+        />
+      )}
+
+      <aside
+        id="admin-sidebar"
+        inert={!sidebarVisible}
+        className={`fixed inset-y-0 left-0 z-40 flex h-dvh w-64 flex-col bg-main text-background transition-transform lg:sticky lg:top-0 lg:z-auto lg:translate-x-0 ${
+          sidebarVisible ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="px-5 py-6">
+          <BrandLogo className="h-8" />
+          <p className="mt-2 text-sm text-background/90">관리자</p>
+        </div>
+
+        <nav aria-label="관리 메뉴" className="flex flex-1 flex-col overflow-y-auto px-3 pb-6">
+          {navigation.map((section) => (
+            <div key={section.label ?? 'home'} className={section.label ? 'mt-4' : undefined}>
+              {section.label && (
+                <p className="px-3 pb-1 text-xs font-semibold tracking-wide text-accent">{section.label}</p>
+              )}
+              <ul className="grid gap-1">
+                {section.items.map((item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end
+                      className={({ isActive }) =>
+                        `flex items-center rounded-lg px-3 py-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                          isActive ? 'bg-background text-main' : 'text-background/90 hover:bg-white/10'
+                        }`
+                      }
+                    >
+                      <span>{item.label}</span>
+                      {badgeCounts[item.to] > 0 && (
+                        <span className="ml-auto inline-flex min-w-5 h-5 items-center justify-center rounded-full bg-accent px-1.5 text-xs font-semibold text-text">
+                          {badgeCounts[item.to] > 99 ? '99+' : badgeCounts[item.to]}
+                        </span>
+                      )}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div className="mt-auto pt-8">
+            <button
+              type="button"
+              disabled={loggingOut}
+              onClick={handleLogout}
+              className="w-full rounded-lg bg-accent px-3 py-2 text-left text-sm font-medium text-text hover:bg-accent/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-60"
+            >
+              {loggingOut ? '로그아웃 중' : '로그아웃'}
+            </button>
+          </div>
+        </nav>
+      </aside>
+
+      <div className="flex min-w-0 flex-col">
+        <header className="flex items-center gap-3 bg-main px-4 py-3 text-background lg:hidden">
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-controls="admin-sidebar"
+            onClick={() => setMenuPath(location.pathname)}
+            className="rounded-md px-2 py-1 text-sm font-semibold hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            메뉴
+          </button>
+          <BrandLogo className="h-7" />
+        </header>
+
+        <main className="px-4 py-6 sm:px-8 sm:py-8 md:px-12 md:py-10">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  )
+}
+
+export default AdminLayout

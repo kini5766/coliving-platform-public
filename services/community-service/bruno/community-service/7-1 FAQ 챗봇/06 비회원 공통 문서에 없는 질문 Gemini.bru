@@ -1,0 +1,17 @@
+meta {
+  name: 06 비회원 공통 문서에 없는 질문 Gemini
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/community-service/faq-bot/ask
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "반려동물 키울 수 있나요?"
+  }
+}

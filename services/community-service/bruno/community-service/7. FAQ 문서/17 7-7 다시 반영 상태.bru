@@ -1,0 +1,15 @@
+meta {
+  name: 17 7-7 다시 반영 상태
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/community-service/admin/faq-documents/reindex/{{faqJobId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

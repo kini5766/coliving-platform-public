@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="룸링크">
+  <title>룸링크</title>
+  <rect width="64" height="64" rx="16" fill="#52796F"/><mask id="icon" maskUnits="userSpaceOnUse"><rect x="6.00" y="8.36" width="52.00" height="47.27" rx="10.64" fill="#fff"/><rect x="27.86" y="7.18" width="8.27" height="16.55" fill="#000"/><rect x="27.86" y="40.27" width="8.27" height="16.55" fill="#000"/></mask><rect x="6.00" y="8.36" width="52.00" height="47.27" rx="10.64" fill="#F3F5F1" mask="url(#icon)"/><rect x="24.91" y="22.55" width="14.18" height="18.91" rx="3.55" fill="#D6A56D"/>
+</svg>

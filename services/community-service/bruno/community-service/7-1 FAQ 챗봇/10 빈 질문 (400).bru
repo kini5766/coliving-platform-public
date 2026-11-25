@@ -1,0 +1,17 @@
+meta {
+  name: 10 빈 질문 (400)
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/community-service/faq-bot/ask
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "   "
+  }
+}

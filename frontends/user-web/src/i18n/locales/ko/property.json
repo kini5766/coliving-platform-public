@@ -1,0 +1,77 @@
+{
+  "list": {
+    "title": "건물 검색",
+    "keywordPlaceholder": "건물명 · 지역 · 지하철역",
+    "regionPlaceholder": "지역 (예: 마포구)",
+    "roomTypeAll": "방 유형 전체",
+    "minMonthly": "최소 월세 (만원)",
+    "maxMonthly": "최대 월세 (만원)",
+    "maxDeposit": "최대 보증금 (만원)",
+    "search": "검색",
+    "reset": "초기화",
+    "empty": "조건에 맞는 건물이 없습니다.",
+    "total": "총 {{n}}개",
+    "lowestLabel": "최저 월세 / 보증금",
+    "availableRooms": "입주 가능 {{n}}호실",
+    "prev": "이전",
+    "next": "다음"
+  },
+  "building": {
+    "apply": "신청서 작성",
+    "back": "← 건물 목록",
+    "info": "건물 정보",
+    "region": "지역",
+    "type": "건물 형태",
+    "totalFloors": "전체 층수",
+    "floorsValue": "{{n}}층",
+    "parking": "주차",
+    "elevator": "엘리베이터",
+    "contact": "문의 연락처",
+    "introduction": "건물 소개",
+    "facilities": "공용시설",
+    "rooms": "호실 ({{n}})",
+    "noRooms": "등록된 호실이 없습니다.",
+    "monthly": "월 {{fee}}",
+    "deposit": "보증금 {{fee}}",
+    "floorValue": "{{n}}층",
+    "capacityValue": "{{n}}인"
+  },
+  "room": {
+    "conditions": "이용 조건",
+    "leaseType": "임대 유형",
+    "monthlyFee": "월 이용료",
+    "deposit": "보증금",
+    "managementFee": "관리비",
+    "roomInfo": "방 정보",
+    "roomType": "방 유형",
+    "roomStructure": "방 구조",
+    "floor": "층수",
+    "area": "전용면적",
+    "capacity": "수용 인원",
+    "buildingInfo": "건물 정보"
+  },
+  "common": {
+    "loading": "불러오는 중입니다…",
+    "noImage": "등록된 사진이 없습니다",
+    "noFacilities": "등록된 시설이 없습니다.",
+    "yes": "있음",
+    "no": "없음",
+    "available": "입주 가능",
+    "unavailable": "입주 불가"
+  },
+  "leaseTypes": {
+    "MONTHLY": "월세",
+    "SHORT_TERM": "단기",
+    "OTHER": "기타"
+  },
+  "roomTypes": {
+    "원룸": "원룸",
+    "투룸": "투룸",
+    "쉐어룸": "쉐어룸",
+    "도미토리": "도미토리"
+  },
+  "errors": {
+    "requestFailed": "요청에 실패했습니다. ({{status}})",
+    "network": "서버에 연결할 수 없습니다."
+  }
+}

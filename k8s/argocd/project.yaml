@@ -1,0 +1,20 @@
+# Argo CD가 설치된 클러스터에서 한 번만 적용한다.
+#   kubectl apply -f k8s/argocd/project.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: coliving
+  namespace: argocd
+spec:
+  description: coliving-platform (COL-39)
+  sourceRepos:
+    - https://github.com/ibm05-team-3/coliving-platform.git
+  destinations:
+    - namespace: coliving
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

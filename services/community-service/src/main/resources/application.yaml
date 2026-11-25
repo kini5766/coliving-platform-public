@@ -1,0 +1,13 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: community-service
+  config:
+    import: "optional:configserver:http://localhost:8888/"
+    fail-fast: true
+  profiles:
+    active: dev
+# gRPC 주소(spring.grpc.client.channel.*)와 연동 방식(community.clients.*)은 config-server community-service-dev.yaml
+# config-server 없이 실행하면 community.clients.* 가 없어서 가짜(fake) 클라이언트로 동작

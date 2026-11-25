@@ -1,0 +1,22 @@
+meta {
+  name: 09 관리자 미리보기 (성수) Gemini
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/community-service/faq-bot/ask
+  body: json
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:json {
+  {
+    "question": "택배는 며칠 동안 보관해 주나요?",
+    "buildingId": 2
+  }
+}

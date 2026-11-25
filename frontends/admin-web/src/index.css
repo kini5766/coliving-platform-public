@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-main: #52796F;
+  --color-background: #F3F5F1;
+  --color-text: #26332E;
+  --color-accent: #D6A56D;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}

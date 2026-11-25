@@ -1,0 +1,15 @@
+meta {
+  name: 18 7-4 스캔 문서 삭제
+  type: http
+  seq: 18
+}
+
+delete {
+  url: {{baseUrl}}/community-service/admin/faq-documents/{{faqScannedDocId}}
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}

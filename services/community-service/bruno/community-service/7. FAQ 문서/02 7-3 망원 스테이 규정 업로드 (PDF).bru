@@ -1,0 +1,26 @@
+meta {
+  name: 02 7-3 망원 스테이 규정 업로드 (PDF)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/community-service/admin/faq-documents
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
+
+body:multipart-form {
+  title: 망원 스테이 이용 규정
+  scope: BUILDING
+  buildingId: {{buildingId}}
+  file: @file(faq-samples/mangwon-stay-rules.pdf)
+}
+
+script:post-response {
+  if (res.status === 201) bru.setEnvVar("faqMangwonDocId", res.body.documentId);
+}

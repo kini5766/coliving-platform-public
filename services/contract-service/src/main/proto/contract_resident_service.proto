@@ -1,0 +1,45 @@
+// ============================================================
+// 계약 서비스 ↔ 커뮤니티 서비스 gRPC 계약서
+// 서버: contract-service (9089) / 클라이언트: community-service
+// 원본: Confluence MFS「community-service grpc 초안」 3. contract_resident.proto
+// ⚠ 두 서비스가 똑같은 내용으로 가지고 있어야 함. 필드 번호는 바꾸거나 재사용하지 않고, 지울 때는 reserved
+//
+// 초안에서 바꾼 것 (2026-11-03, community 담당과 맞춰야 함)
+//   5  room_number(string "302호") → room_id(int64)    호실 ID
+//   8  contract_end_date            → move_out_date     퇴실 예정일 (값은 그대로 계약 마지막 날)
+//   9  room_name 추가                                   "302호" (작성자·채팅 상대 옆 호실 표시용)
+// ============================================================
+syntax = "proto3";
+
+package coliving.contract.v1;
+
+option java_multiple_files = true;
+option java_package = "com.coliving.platform.grpc.contract";
+option java_outer_classname = "ContractResidentProto";
+
+service ContractResidentService {
+  // 2-1 입주 건물·호실 일괄 조회
+  // ① 커뮤니티·채팅 요청마다 본인 입주 건물 확인 ② 작성자·채팅 상대 호실 표시 ③ 쪽지함·신고 대상자 호실
+  // 계약이 없는 회원은 에러 없이 결과에서 빠짐
+  rpc GetResidentRooms (GetResidentRoomsRequest) returns (GetResidentRoomsResponse);
+}
+
+message GetResidentRoomsRequest {
+  repeated int64 user_ids = 1;           // 최대 100개 (넘으면 INVALID_ARGUMENT)
+}
+
+message GetResidentRoomsResponse {
+  repeated ResidentRoom rooms = 1;       // 회원당 1개 (현재 또는 가장 최근 계약)
+}
+
+message ResidentRoom {
+  int64 user_id = 1;
+  int64 contract_id = 2;                 // contract_application.id
+  int64 building_id = 3;                 // 게시글·채팅 건물 범위 판단
+  string building_name = 4;
+  int64 room_id = 5;                     // 호실 ID (후보자는 신청한 호실)
+  string contract_status = 6;            // contract-service ContractStatus 이름 그대로 (PAID, COMPLETED ...)
+  optional string move_in_date = 7;      // "2025-06-12" (yyyy-MM-dd, 한국 날짜)
+  optional string move_out_date = 8;     // "2026-06-11" 퇴실 예정일 (계약 마지막 날, 이 날까지 거주)
+  string room_name = 9;                  // "302호"
+}

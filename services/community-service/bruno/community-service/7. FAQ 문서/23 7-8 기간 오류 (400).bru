@@ -1,0 +1,15 @@
+meta {
+  name: 23 7-8 기간 오류 (400)
+  type: http
+  seq: 23
+}
+
+get {
+  url: {{baseUrl}}/community-service/admin/faq-bot/logs?from=2026-11-10&to=2026-11-01
+  body: none
+  auth: none
+}
+
+headers {
+  X-User: {{adminId}}
+}
